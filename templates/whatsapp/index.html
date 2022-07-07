@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+{% csrf_token %}
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="icon" type="image/svg" href="images/title.svg">
+    <script src="https://kit.fontawesome.com/8dd77b6d8e.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: none;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #b9b3ae;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+
+        body {
+            display: flex;
+            overflow: hidden;
+        }
+
+        .avatar {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .avatar img,
+        .chat-avatar img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .chat-header-right i {
+            width: 20px;
+            height: 20px;
+            margin: 5px 13px;
+            color: rgb(125, 127, 126);
+            font-size: 24px;
+        }
+
+        .chat-header-right i:hover,
+        .message-footer i:hover {
+            color: #393838;
+            cursor: pointer;
+        }
+
+        .sidebar {
+            flex: 30%;
+        }
+
+        .header {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .message-container {
+            flex: 70%;
+        }
+
+        .chat-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .message-header-content {
+            margin-left: 15px;
+        }
+
+        .message-header-content h4 {
+            color: black;
+            font-weight: 400;
+        }
+
+        .message-header-content p {
+            font-size: 13px;
+            color: rgb(4, 203, 4);
+        }
+
+        .sidebar-search {
+            display: flex;
+            align-items: center;
+            background-color: #f6f6f6;
+            padding: 8px 15px;
+        }
+
+        .sidebar-search-container {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            width: 100%;
+            height: 35px;
+            border-radius: 20px;
+        }
+
+        .sidebar-search-container i {
+            width: 15px;
+            height: 15px;
+            margin: 0 15px;
+        }
+
+        .sidebar-search-container input {
+            border: none;
+            outline: none;
+            margin-left: 20px;
+            margin-right: 20px;
+            width: 100%;
+        }
+
+        .chat-avatar {
+            position: relative;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex: 1;
+
+        }
+
+        .sidebar-chats {
+            height: calc(100vh - 115px);
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .sidebar-chat {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px 12px;
+            width: 100%;
+        }
+
+        .sidebar-chat:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+
+        .sidebar-chat:nth-child(2) {
+            background-color: #ebebeb;
+        }
+
+        .sidebar-chat::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            bottom: 0;
+            left: 80px;
+            border-bottom: 1px solid #999;
+            opacity: 0.8;
+        }
+
+        .chat-info {
+            margin-left: 15px;
+            flex: 10;
+        }
+
+        .chat-info p {
+            font-size: 13px;
+            line-height: 20px;
+            color: gray;
+        }
+
+        .time {
+            flex: 1;
+        }
+
+        .time p {
+            white-space: nowrap;
+            font-size: 13px;
+            margin-top: -16px;
+            color: gray;
+
+        }
+
+        .message-content {
+            background-color: rgb(240, 235, 229);
+            background-position: center;
+            height: calc(100vh - 120px);
+            padding: 20px 80px;
+            overflow-y: scroll;
+        }
+
+        .chat-message {
+            font-size: 18 px;
+            padding: 8px 10px;
+            width: fit-content;
+            border-radius: 8px;
+            background-color: white;
+            margin-bottom: 30px;
+        }
+
+        .chat-timestamp {
+            margin-left: 10px;
+            font-size: 5px;
+            color: gray;
+        }
+
+        .chat-sent {
+            margin-left: auto;
+            background-color: #dcf8c6;
+        }
+
+        .message-footer {
+            display: flex;
+            align-items: center;
+            padding: 2px 10px;
+            background-color: #f0f0f0;
+        }
+
+        .message-footer i {
+            flex: 0.1;
+            color: rgb(125, 127, 126);
+            font-size: 25px;
+            margin: 5px 10px;
+
+        }
+
+        .message-footer input {
+            flex: 20;
+            margin: 5px 10px;
+            padding: 12px 15px;
+            outline: none;
+            border: none;
+            border-radius: 20px;
+            font-size: 15px;
+        }
+
+        .message-footer button {
+            outline: none;
+            border: none;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="header">
+            <div class="avatar">
+                <img src="https://www.svgrepo.com/show/30132/avatar.svg" alt="avatar">
+            </div>
+            <div class="chat-header-right">
+                <i class="fa-solid fa-right-from-bracket fa-1x"></i>
+            </div>
+        </div>
+        <div class="sidebar-search">
+            <div class="sidebar-search-container">
+                <i>
+                    <ion-icon name="search-outline" style="color: black;"></ion-icon>
+                </i>
+                <input type="text" placeholder="Search">
+            </div>
+        </div>
+        <div class="sidebar-chats">
+            <div class="sidebar-chat">
+                <div class="chat-avatar">
+                    <img src="https://www.svgrepo.com/show/9649/avatar.svg" alt="user-profile">
+                </div>
+                <div class="chat-info">
+                    <h4>Shrujan Shashank</h4>
+                    <p>Last Message</p>
+                </div>
+                <div class="time">
+                    <p>2:44 pm</p>
+                </div>
+            </div>
+            <div class="sidebar-chat">
+                <div class="chat-avatar">
+                    <img src="https://www.svgrepo.com/show/9649/avatar.svg" alt="user-profile">
+                </div>
+                <div class="chat-info">
+                    <h4>Shrujan Shashank</h4>
+                    <p>Last Message</p>
+                </div>
+                <div class="time">
+                    <p>2:44 pm</p>
+                </div>
+            </div>
+            <div class="sidebar-chat">
+                <div class="chat-avatar">
+                    <img src="https://www.svgrepo.com/show/9649/avatar.svg" alt="user-profile">
+                </div>
+                <div class="chat-info">
+                    <h4>Shrujan Shashank</h4>
+                    <p>Last Message</p>
+                </div>
+                <div class="time">
+                    <p>2:44 pm</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="message-container">
+        <div class="header">
+            <div class="chat-title">
+                <div class="avatar">
+                    <img src="https://www.svgrepo.com/show/9649/avatar.svg" alt="user-profile">
+                </div>
+                <div class="message-header-content">
+                    <h4>Shrujan Shashank</h4>
+                    <p>online</p>
+                </div>
+            </div>
+            <div class="chat-header-right" style="border-left:2px solid rgba(0, 0, 0, 0.1) ;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+            </div>
+        </div>
+        <div class="message-content">
+            <p class="chat-message">{{recieve_message}}
+                <span class="chat-timestamp">{{time}}</span>
+            </p>
+            <p class="chat-message chat-sent">{{sent_message}}
+                <span class="chat-timestamp">{{time}}</span>
+            </p>
+        </div>
+        <form method="post" action="{% url 'index' %}">
+            <div class="message-footer">
+
+                <button><i class="fa-solid fa-image"></i></button>
+                <button><i class="fa-solid fa-file-arrow-up"></i></button>
+                <input type="text" placeholder="Type a message" name="userinput">
+                <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+
+
+            </div>
+        </form>
+    </div>
+
+</body>
+
+
+</html>
